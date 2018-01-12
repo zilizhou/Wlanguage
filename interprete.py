@@ -31,62 +31,97 @@ def getInfoBracket(symbol,str):#对于有中括号和小括号的语句，提取
 #                                     概念.学生>>student
 #                                     实例.张三>>张小明
 
-def termToId(str):
+def termToId(term):
+    infos=[]
+    #这里调用查询是否有id的函数 返回这些id的所有信息（以字典的数据类型）放到list里面
+
+
+    return infos
+
+
+
+def idConfirm(info):
+
 
 
     pass
 
 
 
-def judgeStyle(strcut): #根据对数据操作的几种类型，判断语句中属于哪几种类型。
+def clauseInterpret(strcut): #根据对数据操作的几种类型，判断语句中属于哪几种类型。
     print(strcut)
-    strLeft=strcut[1][0].split('.') #对连接符切分后的前半部分以'.'分割
-    strRight=strcut[1][1].split('.') #对连接符切分后的后半部分以'.'分割
-    if getInfoBracket('[]',strRight[0]):
-        strRightCut=getInfoBracket('[]',strRight[0])[0].split(',')#
+    strLeft=strcut[1][0] #对连接符切分后的前半部分以'.'分割
+    strTemp=strcut[1][1]
+    print(strcut[0])
+
+    if (strcut[0]==''):
+        strRightCut = strTemp.split(',')
     else:
-        strRightCut=[strRight[0]]
-    if (strLeft[0] in keyWords_mon):#看一下这一项中的内容是否是关键词中的一员，如果是，则执行概念、实例、关系和属性的增加和删除
-        if (strcut[0]=='+='):
-            if (strLeft[0]=='概念'):#增加概念，具体概念是strRight
-                print(strcut[0],strLeft)
-                pass
-            if (strLeft[0]=='实例'):#增加实例，具体实例是strRight
-                print(strcut[0] , strLeft)
-                pass
-            if (strLeft[0]=='关系'):#增加关系，具体关系是strRight
-                print(strcut[0] , strLeft)
-                pass
-            if (strLeft[0]=='属性'):#增加属性，具体属性是strRight
-                print(strcut[0] , strLeft)
-                pass
-        if (strcut[0] == '-='):
-            if (strLeft[0] == '概念'):#删除概念，具体概念是strRight
-                pass
-            if (strLeft[0] == '实例'):#删除实例，具体实例是strRight
-                pass
-            if (strLeft[0] == '关系'):#删除关系，具体关系是strRight
-                pass
-            if (strLeft[0] == '属性'):#删除属性，具体属性是strRight
-                pass
-        if (len(strLeft)>1):
-            if (strLeft[0] == '概念'):#修改概念术语，具体概念是strRight
-                pass
-            if (strLeft[0] == '实例'):#修改实例术语，具体实例是strRight
-                pass
-            if (strLeft[0] == '关系'):#修改关系术语，具体关系是strRight
-                pass
-            if (strLeft[0] == '属性'):#修改属性术语，具体属性是strRight
-                pass
-    else: #如果前半部分包含多项,并且没有概念，实例，关系和属性，也就是是具体的概念的情况下 进行的操作
-        
-        pass
+        if getInfoBracket('[]', strTemp):
+            strRightCut = getInfoBracket('[]', strTemp)[0].split(' ')  #
+        else:
+            strRightCut = strTemp.split(',')
+
+    print(strcut[0], '-----', strLeft, '--', strRightCut)
+    return strcut[0], strLeft, strRightCut
+
+def questionForFront(str):
+    act = str[0]
+    if act:
+        left = str[1].split('.')
+        right = str[2][0].split('.')
+    else:
+        left=''
+        right = str[2]
+        for
 
 
 
-    print(strLeft,'--',strRight)
+    print(act, '$$', left, '$$', right)
 
     pass
+
+    # if (strLeft[0] in keyWords_mon):#看一下这一项中的内容是否是关键词中的一员，如果是，则执行概念、实例、关系和属性的增加和删除
+    #     if (strcut[0]=='+='):
+    #         if (strLeft[0]=='概念'):#增加概念，具体概念是strRight
+    #             print(strcut[0],strLeft)
+    #             pass
+    #         if (strLeft[0]=='实例'):#增加实例，具体实例是strRight
+    #             print(strcut[0] , strLeft)
+    #             pass
+    #         if (strLeft[0]=='关系'):#增加关系，具体关系是strRight
+    #             print(strcut[0] , strLeft)
+    #             pass
+    #         if (strLeft[0]=='属性'):#增加属性，具体属性是strRight
+    #             print(strcut[0] , strLeft)
+    #             pass
+    #     if (strcut[0] == '-='):
+    #         if (strLeft[0] == '概念'):#删除概念，具体概念是strRight
+    #             pass
+    #         if (strLeft[0] == '实例'):#删除实例，具体实例是strRight
+    #             pass
+    #         if (strLeft[0] == '关系'):#删除关系，具体关系是strRight
+    #             pass
+    #         if (strLeft[0] == '属性'):#删除属性，具体属性是strRight
+    #             pass
+    #     if (len(strLeft)>1):
+    #         if (strLeft[0] == '概念'):#修改概念术语，具体概念是strRight
+    #             pass
+    #         if (strLeft[0] == '实例'):#修改实例术语，具体实例是strRight
+    #             pass
+    #         if (strLeft[0] == '关系'):#修改关系术语，具体关系是strRight
+    #             pass
+    #         if (strLeft[0] == '属性'):#修改属性术语，具体属性是strRight
+    #             pass
+    # else: #如果前半部分包含多项,并且没有概念，实例，关系和属性，也就是具体的概念的情况下 进行的操作
+    #     if (strcut[0] == '-='):
+    #
+    #         pass
+
+
+
+
+
 
 def oneClauseCut(str):
     if '+' in str:
@@ -122,7 +157,6 @@ def oneClauseCut(str):
         symbol = '='
     if ('=' not in str) and ('+=' not in str) and ('-=' not in str) and ('*' not in str) and (':-' not in str) and ('>>' not in str):
         strcut = ['']+[str] #对于查询的情况
-        print(strcut)
         symbol = ''
 
     return (symbol,strcut)
@@ -141,9 +175,13 @@ def clauseUtoS(ustring):
 if __name__ == '__main__':
     # s=getInfoBracket('[]', '[(@概念),学生]([+=学生,test]')
     # print(s[0].split(','))
-    str1=clauseUtoS('aa=[概念,同学,学生,test]')
+    str1 = clauseUtoS('[张三 李四].同学.&A, &A.朋友.&B, &B.&D.李四,@大于（&A.年龄  30）')
+    # str1=clauseUtoS('&A.老乡.&B:-&A.籍贯.&C,&B.籍贯.&C ')#&A.老乡.&B:-&A.籍贯.&C,&B.籍贯.&C  aa.bb+=[学生，同学]
+    # str1 = clauseUtoS('aa.bb+=学生')
+    # str1=clauseUtoS('概念+=学生')
     str2=oneClauseCut(str1)
 
-    str3=judgeStyle(str2)
-    print(str3)
+    str3=clauseInterpret(str2)
+    str4=questionForFront(str3)
+
     # print(str2[0].split('.'))
