@@ -30,11 +30,22 @@ def getInfoBracket(symbol,str):#对于有中括号和小括号的语句，提取
 #
 #                                     概念.学生>>student
 #                                     实例.张三>>张小明
-def judgeStyle(strcut): #根据对数据操作的几种类型，判断语句中属于哪几种类型。
 
+def termToId(str):
+
+
+    pass
+
+
+
+def judgeStyle(strcut): #根据对数据操作的几种类型，判断语句中属于哪几种类型。
+    print(strcut)
     strLeft=strcut[1][0].split('.') #对连接符切分后的前半部分以'.'分割
     strRight=strcut[1][1].split('.') #对连接符切分后的后半部分以'.'分割
-
+    if getInfoBracket('[]',strRight[0]):
+        strRightCut=getInfoBracket('[]',strRight[0])[0].split(',')#
+    else:
+        strRightCut=[strRight[0]]
     if (strLeft[0] in keyWords_mon):#看一下这一项中的内容是否是关键词中的一员，如果是，则执行概念、实例、关系和属性的增加和删除
         if (strcut[0]=='+='):
             if (strLeft[0]=='概念'):#增加概念，具体概念是strRight
@@ -71,45 +82,49 @@ def judgeStyle(strcut): #根据对数据操作的几种类型，判断语句中�
         
         pass
 
-    print(strLeft)
+
+
+    print(strLeft,'--',strRight)
 
     pass
 
 def oneClauseCut(str):
     if '+' in str:
-        if '+=' in str:
+        if '+=' in str:#涉及到知识编辑 增加
             strcut=str.split('+=')
             symbol='+='
 
-        else:
+        else:  #涉及到知识计算  - 的情况
             strcut = str.split('+')
             symbol = '+'
 
     if '-' in str:
-        if '-=' in str:
+        if '-=' in str: #涉及到知识编辑 减少
             strcut = str.split('-=')
             symbol = '-='
-        else:
+        else:  #涉及到知识计算  - 的情况
             strcut = str.split('-')
             symbol = '-'
 
-    if '>>' in str:
+    if '>>' in str: #用于术语的编辑
         strcut = str.split('>>')
         symbol = '>>'
 
-    if ':-' in str:
+    if ':-' in str: #涉及到规则的情况
         strcut = str.split(':-')
         symbol = ':-'
 
-    if '*' in str:
+    if '*' in str:# 对于知识计算的情况
         strcut = str.split('*')
         symbol = '*'
     if ('=' in str) and ('+=' not in str) and ('-=' not in str):
-        strcut = str.split('=')
+        strcut = str.split('=') #对于只有=号的情况，就是涉及到了变量
         symbol = '='
     if ('=' not in str) and ('+=' not in str) and ('-=' not in str) and ('*' not in str) and (':-' not in str) and ('>>' not in str):
-        strcut = str
+        strcut = ['']+[str] #对于查询的情况
+        print(strcut)
         symbol = ''
+
     return (symbol,strcut)
 def clauseUtoS(ustring):
     """全角转半角"""
@@ -124,10 +139,11 @@ def clauseUtoS(ustring):
     return rstring
 
 if __name__ == '__main__':
-    # s=getInfoBracket('[]', '[(@概念)](+=学生')
-    # print(s)
-    str1=clauseUtoS('概念.同学>>学生')
+    # s=getInfoBracket('[]', '[(@概念),学生]([+=学生,test]')
+    # print(s[0].split(','))
+    str1=clauseUtoS('aa=[概念,同学,学生,test]')
     str2=oneClauseCut(str1)
+
     str3=judgeStyle(str2)
     print(str3)
     # print(str2[0].split('.'))
